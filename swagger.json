@@ -1,0 +1,1171 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "StoreAPIV1",
+    "description" : "The Store API is organized around REST. The API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n\nYou can use the Store API in test mode or production mode.The API endpoint uses Bearer authentication and it provides methods for managing and creating stores owned by Nordstrom. Use the Store API to get and update information about a specific Nordstrom store. \n",
+    "contact" : {
+      "name" : "Dawit"
+    }
+  },
+  "host" : "nordstromstores.tech",
+  "basePath" : "/api/v1",
+  "securityDefinitions" : {
+    "Bearer" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "schemes" : [ "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/stores" : {
+      "get" : {
+        "security" : [ {
+          "Bearer" : [ ]
+        } ],
+        "description" : "Fetch all Nordstrom stores (Full Line, Rack, Trunk-Club, N.com, Corporate), located in Canada and the US. It supports pagination and filtering.",
+        "summary" : "Get Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful request, and it returns all stores.",
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad request. The server cannot or will not process the request due to something that is perceived to be a client error",
+            "headers" : { }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "headers" : { }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Create a new store. Must be authenticated. ",
+        "summary" : "Create Store",
+        "tags" : [ "Stores" ],
+        "operationId" : "CreateStore",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Content-Type",
+          "in" : "header",
+          "required" : true,
+          "type" : "string",
+          "description" : "JSON Type"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/CreateStoreRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/{store_id}" : {
+      "get" : {
+        "description" : "Featch a store that matches the store ID.",
+        "summary" : "Get Store",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetStore",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "store_id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful request, and it returns a store the matchs the store_id.",
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad request, request not found.",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/newrelic" : {
+      "get" : {
+        "description" : "Returns store data that is formatted for NewRelic GeoOps ingestion. ",
+        "summary" : "Get NewRelic",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetNewRelic",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Content-Type",
+          "in" : "header",
+          "required" : true,
+          "type" : "string",
+          "description" : "JSON Type"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful request, and it returns a store data that is formatted for NewRelic GeoOps ingestion.",
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad request, Not authorized to access this route!",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/FLS" : {
+      "get" : {
+        "description" : "Returns all Nordstrom Fullline stores from US regions. ",
+        "summary" : "Get FLS Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetFLSStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/rack" : {
+      "get" : {
+        "description" : "Returns all Rack stores from US region.",
+        "summary" : "Get Rack Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetRackStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/trunkclub" : {
+      "get" : {
+        "description" : "Returns all TrunkClub stores",
+        "summary" : "Get TrunkClub Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetTrunkClubStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/ca/fls" : {
+      "get" : {
+        "description" : "Returns all Nordstrom Canada Stores",
+        "summary" : "Get Candata FLS Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetCandataFLSStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/ca/rack" : {
+      "get" : {
+        "description" : "Returns all Canada Rack Stores. ",
+        "summary" : "Get Candata Rack Stores",
+        "tags" : [ "Stores" ],
+        "operationId" : "GetCandataRackStores",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/stores/1" : {
+      "put" : {
+        "description" : "Update a store that matches the store ID. Must be authenticated. ",
+        "summary" : "Update Store",
+        "tags" : [ "Stores" ],
+        "operationId" : "UpdateStore",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete a store that matches a store ID. Must be authenticated. ",
+        "summary" : "Delete Store",
+        "tags" : [ "Stores" ],
+        "operationId" : "DeleteStore",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/register" : {
+      "post" : {
+        "description" : "Create and register a new user using the name, email, password and role. ",
+        "summary" : "Register User",
+        "tags" : [ "Authentication" ],
+        "operationId" : "RegisterUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "Contains information about the new user.",
+          "schema" : {
+            "$ref" : "#/definitions/RegisterUserRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about the newly created user.",
+            "headers" : { },
+            "schema" : {
+              "$ref" : "#/definitions/RegisterUser"
+            }
+          }
+        }
+      }
+    },
+    "/auth/signin" : {
+      "post" : {
+        "description" : "# Authenticate and sign-in user\n**ARGUMENTS:**\n\nemail [*required*]: user's email address.\n\npassword [*required*]: user's password.",
+        "summary" : "Signin User",
+        "tags" : [ "Authentication" ],
+        "operationId" : "SigninUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/SigninUserRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/me" : {
+      "get" : {
+        "description" : "Retrieves the authenticated and signed in users information using token. ",
+        "summary" : "Get Signed-in User Using Token",
+        "tags" : [ "Authentication" ],
+        "operationId" : "GetSigned-inUserUsingToken",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/resetpassword" : {
+      "post" : {
+        "description" : "Generate password token and send email. ",
+        "summary" : "Reset Password",
+        "tags" : [ "Authentication" ],
+        "operationId" : "ResetPassword",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ResetPasswordRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/resetpassword/5fd2978c215135e412e5c390d42cb444ec28cec2" : {
+      "put" : {
+        "description" : "Reset user's password using a token that was sent through the email. ",
+        "summary" : "Reset Password Using Token",
+        "tags" : [ "Authentication" ],
+        "operationId" : "ResetPasswordUsingToken",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/ResetPasswordUsingTokenRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/updateuser" : {
+      "put" : {
+        "description" : "# Updates user details like name and email \n**ARGUMENTS:**\n\nname [*optional*]: New name  to replace the current name.\n\nemail [*optional*]: New email address to replace the current email.",
+        "summary" : "Update User Details",
+        "tags" : [ "Authentication" ],
+        "operationId" : "UpdateUserDetails",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/UpdateUserDetailsRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/updatepassword" : {
+      "put" : {
+        "description" : "# Update User Password \n**ARGUMENTS:**\n\ncurrentPassword [*required*]: password of the currently logged-in user.\n\nnewPassword [*required*]: new password to update the current password.",
+        "summary" : "Update User Password",
+        "tags" : [ "Authentication" ],
+        "operationId" : "UpdateUserPassword",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/UpdateUserPasswordRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/auth/logout" : {
+      "get" : {
+        "description" : "Clear token and cookie",
+        "summary" : "Logout User",
+        "tags" : [ "Authentication" ],
+        "operationId" : "LogoutUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/users" : {
+      "get" : {
+        "description" : "Get the list of all users in the organization. This list includes all users.",
+        "summary" : "Get All Users",
+        "tags" : [ "Users" ],
+        "operationId" : "GetAllUsers",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Create a user to access the API endpoint.\n**ARGUMENTS:**\nA user is a JSON object with \"type\":\"users\" that takes the following elements:\n\n**roles** [*optional*]: An array of roles to assign to the user. Each role is an object with \"type\": \"roles\" and an id that is the role ID to assign to the user.\n\n**attributes.email** [*required*]: The email of the new user.\n\n**attributes.password** [*required*]: The name of the new user.",
+        "summary" : "Create User",
+        "tags" : [ "Users" ],
+        "operationId" : "CreateUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/CreateUserRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    },
+    "/users/5eaf99ae70e8a68b8fb633e8" : {
+      "get" : {
+        "description" : "Get a user in the organization specified by the user’s user_id\n**ARGUMENTS:**\n\n**user_id** [*required*]: user's id ",
+        "summary" : "Get A User",
+        "tags" : [ "Users" ],
+        "operationId" : "GetAUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      },
+      "put" : {
+        "description" : "Update a user to access the API endpoint.\n**ARGUMENTS:**\nA user is a JSON object with \"type\":\"users\" that takes the following elements:\n\n**roles** [*optional*]: An array of roles to assign to the user. Each role is an object with \"type\": \"roles\" and an id that is the role ID to assign to the user.\n\n**attributes.email** [*required*]: The email of the new user.\n\n**attributes.password** [*required*]: The name of the new user.",
+        "summary" : "Update User",
+        "tags" : [ "Users" ],
+        "operationId" : "UpdateUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/UpdateUserRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Removes a user from accessing the resources.Can only be used with application keys belonging to administrators\n**ARGUMENTS:**\n\nuser_id [*required*]: The user ID of the user to remove.",
+        "summary" : "Delete User",
+        "tags" : [ "Users" ],
+        "operationId" : "DeleteUser",
+        "deprecated" : false,
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : false,
+          "default" : "Bearer {token}",
+          "type" : "string"
+        }, {
+          "name" : "Body",
+          "in" : "body",
+          "required" : true,
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/DeleteUserRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "headers" : { }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "RegisterUser" : {
+      "type" : "object",
+      "properties" : {
+        "success" : {
+          "type" : "boolean",
+          "example" : true
+        },
+        "access_token" : {
+          "type" : "string",
+          "example" : "SECURETOKENIUzI1NiIsInR5cCI6IkpXVCJ9"
+        },
+        "expires_in" : {
+          "type" : "string",
+          "example" : "Thursday, June 4th 2020, 6:44:53 am"
+        },
+        "scope" : {
+          "type" : "object",
+          "properties" : {
+            "apiOwner" : {
+              "type" : "string",
+              "example" : "NOC"
+            },
+            "access" : {
+              "type" : "string",
+              "example" : "user"
+            }
+          }
+        }
+      },
+      "required" : [ "id", "title" ]
+    },
+    "CreateStoreRequest" : {
+      "title" : "CreateStoreRequest",
+      "example" : {
+        "storeNo" : "0001",
+        "storeName" : "Downtown Seattle",
+        "contact" : {
+          "tie_line" : "8-841-0111",
+          "phone" : "(206) 628-2111",
+          "fax_tie_line" : "8-841-1795",
+          "fax" : "(206) 628-1795"
+        },
+        "location" : {
+          "address" : "500 PINE ST",
+          "city" : "Seattle",
+          "state" : "WA",
+          "zipcode" : "98101-1744"
+        },
+        "businessType" : {
+          "businessUnit" : "FLS",
+          "region" : "NORTHWEST FLS",
+          "rackDistrict" : "N/A",
+          "presClass" : "Everett",
+          "flagship_store" : "Yes"
+        },
+        "store_open_date" : "1963-08-06",
+        "storeMgr" : {
+          "name" : "Hixon Adrienne",
+          "email" : "adrienne.hixon@nordstrom.com",
+          "phone" : "841-1200"
+        },
+        "storeAdmin" : {
+          "name" : "Khryukin Tanya",
+          "email" : "tanya.khryukin@nordstrom.com",
+          "phone" : "841-1201"
+        },
+        "HRMgr" : {
+          "name" : "Eldemire Robyn A",
+          "email" : "robyn.a.eldemire@nordstrom.com",
+          "phone" : "841-1809"
+        },
+        "reginalMgr" : {
+          "name" : "Hartley-Triesch Debbi",
+          "email" : "Debbi.Hartley-Triesch@nordstrom.com",
+          "phone" : "841-4020"
+        },
+        "reginalAdmin" : {
+          "name" : "Vogt Angel",
+          "email" : "angel.vogt@nordstrom.com",
+          "phone" : "841-4036"
+        },
+        "address" : "500 PINE Street"
+      },
+      "type" : "object",
+      "properties" : {
+        "storeNo" : {
+          "type" : "string"
+        },
+        "storeName" : {
+          "type" : "string"
+        },
+        "contact" : {
+          "$ref" : "#/definitions/Contact"
+        },
+        "location" : {
+          "$ref" : "#/definitions/Location"
+        },
+        "businessType" : {
+          "$ref" : "#/definitions/BusinessType"
+        },
+        "store_open_date" : {
+          "type" : "string"
+        },
+        "storeMgr" : {
+          "$ref" : "#/definitions/StoreMgr"
+        },
+        "storeAdmin" : {
+          "$ref" : "#/definitions/StoreAdmin"
+        },
+        "HRMgr" : {
+          "$ref" : "#/definitions/HRMgr"
+        },
+        "reginalMgr" : {
+          "$ref" : "#/definitions/ReginalMgr"
+        },
+        "reginalAdmin" : {
+          "$ref" : "#/definitions/ReginalAdmin"
+        },
+        "address" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "storeNo", "storeName", "contact", "location", "businessType", "store_open_date", "storeMgr", "storeAdmin", "HRMgr", "reginalMgr", "reginalAdmin", "address" ]
+    },
+    "Contact" : {
+      "title" : "Contact",
+      "example" : {
+        "tie_line" : "8-841-0111",
+        "phone" : "(206) 628-2111",
+        "fax_tie_line" : "8-841-1795",
+        "fax" : "(206) 628-1795"
+      },
+      "type" : "object",
+      "properties" : {
+        "tie_line" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "fax_tie_line" : {
+          "type" : "string"
+        },
+        "fax" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "tie_line", "phone", "fax_tie_line", "fax" ]
+    },
+    "Location" : {
+      "title" : "Location",
+      "example" : {
+        "address" : "500 PINE ST",
+        "city" : "Seattle",
+        "state" : "WA",
+        "zipcode" : "98101-1744"
+      },
+      "type" : "object",
+      "properties" : {
+        "address" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "state" : {
+          "type" : "string"
+        },
+        "zipcode" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "address", "city", "state", "zipcode" ]
+    },
+    "BusinessType" : {
+      "title" : "BusinessType",
+      "example" : {
+        "businessUnit" : "FLS",
+        "region" : "NORTHWEST FLS",
+        "rackDistrict" : "N/A",
+        "presClass" : "Everett",
+        "flagship_store" : "Yes"
+      },
+      "type" : "object",
+      "properties" : {
+        "businessUnit" : {
+          "type" : "string"
+        },
+        "region" : {
+          "type" : "string"
+        },
+        "rackDistrict" : {
+          "type" : "string"
+        },
+        "presClass" : {
+          "type" : "string"
+        },
+        "flagship_store" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "businessUnit", "region", "rackDistrict", "presClass", "flagship_store" ]
+    },
+    "StoreMgr" : {
+      "title" : "StoreMgr",
+      "example" : {
+        "name" : "Hixon Adrienne",
+        "email" : "adrienne.hixon@nordstrom.com",
+        "phone" : "841-1200"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "phone" ]
+    },
+    "StoreAdmin" : {
+      "title" : "StoreAdmin",
+      "example" : {
+        "name" : "Khryukin Tanya",
+        "email" : "tanya.khryukin@nordstrom.com",
+        "phone" : "841-1201"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "phone" ]
+    },
+    "HRMgr" : {
+      "title" : "HRMgr",
+      "example" : {
+        "name" : "Eldemire Robyn A",
+        "email" : "robyn.a.eldemire@nordstrom.com",
+        "phone" : "841-1809"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "phone" ]
+    },
+    "ReginalMgr" : {
+      "title" : "ReginalMgr",
+      "example" : {
+        "name" : "Hartley-Triesch Debbi",
+        "email" : "Debbi.Hartley-Triesch@nordstrom.com",
+        "phone" : "841-4020"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "phone" ]
+    },
+    "ReginalAdmin" : {
+      "title" : "ReginalAdmin",
+      "example" : {
+        "name" : "Vogt Angel",
+        "email" : "angel.vogt@nordstrom.com",
+        "phone" : "841-4036"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "phone" ]
+    },
+    "RegisterUserRequest" : {
+      "title" : "RegisterUserRequest",
+      "example" : {
+        "name" : "John Doe",
+        "email" : "JohnDoe@test.com",
+        "password" : "secure!pass#"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "role" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "password" ]
+    },
+    "SigninUserRequest" : {
+      "title" : "SigninUserRequest",
+      "example" : {
+        "email" : "dawit@test.com",
+        "password" : "12345678"
+      },
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "email", "password" ]
+    },
+    "ResetPasswordRequest" : {
+      "title" : "ResetPasswordRequest",
+      "example" : {
+        "email" : "dawit@test.com",
+        "password" : "123456789"
+      },
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "email", "password" ]
+    },
+    "ResetPasswordUsingTokenRequest" : {
+      "title" : "ResetPasswordUsingTokenRequest",
+      "example" : {
+        "email" : "dawit@test.com",
+        "password" : "123456789"
+      },
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "email", "password" ]
+    },
+    "UpdateUserDetailsRequest" : {
+      "title" : "UpdateUserDetailsRequest",
+      "example" : {
+        "name" : "dawit a",
+        "email" : "dawit.y.abera@nordstrom.com",
+        "password" : "12345678"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "password" ]
+    },
+    "UpdateUserPasswordRequest" : {
+      "title" : "UpdateUserPasswordRequest",
+      "example" : {
+        "currentPassword" : "123456789",
+        "newPassword" : "password12"
+      },
+      "type" : "object",
+      "properties" : {
+        "currentPassword" : {
+          "type" : "string"
+        },
+        "newPassword" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "currentPassword", "newPassword" ]
+    },
+    "CreateUserRequest" : {
+      "title" : "CreateUserRequest",
+      "example" : {
+        "name" : "dawit test",
+        "email" : "da@test.com",
+        "password" : "password"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email", "password" ]
+    },
+    "UpdateUserRequest" : {
+      "title" : "UpdateUserRequest",
+      "example" : {
+        "name" : "dawit test2",
+        "email" : "da@test2.com"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email" ]
+    },
+    "DeleteUserRequest" : {
+      "title" : "DeleteUserRequest",
+      "example" : {
+        "name" : "dawit test2",
+        "email" : "da@test2.com"
+      },
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "name", "email" ]
+    }
+  },
+  "tags" : [ {
+    "name" : "Stores",
+    "description" : "Routes for All Nordstrom stores. It has routes to creates, update, and deletes the resources."
+  }, {
+    "name" : "Authentication",
+    "description" : "Routes for Users authentication. It has routes to creates, update, and deletes the resources."
+  }, {
+    "name" : "Users",
+    "description" : "Routes to create, edit, and delete users."
+  } ]
+}
